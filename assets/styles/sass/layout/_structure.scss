@@ -1,0 +1,70 @@
+@import "configurations/variables";
+
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+
+	transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+}
+
+@import "fonts/fonts";
+
+body {
+	font-family: 'TTMedium';
+	font-size: 1em;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	text-align: center;
+}
+
+p {
+	line-height: 1.4;
+}
+
+pre {
+	margin: 0;
+	white-space: none;
+}
+
+.header {
+	background: $bgheader-image;
+	padding: 2.5em 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 2;
+
+	box-shadow: 0 3px 9px #666;
+	-moz-box-shadow: 0 3px 9px #666;
+	-webkit-box-shadow: 0 3px 9px #666;
+
+	h1 {
+		color: $bgheader-color;
+		font-size: 3em;
+		font-weight: normal;
+		margin: 0;
+		text-align: center;
+		text-transform: uppercase;
+
+		text-shadow: 3px 3px 6px #666;
+	}
+
+	p {
+		color: $bgheader-color;
+		text-align: center;
+
+		text-shadow: 0px 0px 2px #000;
+	}
+}
+
+.container {
+	margin: 15em auto 0;
+	max-width: 50em;
+	position: relative;
+}

@@ -1,0 +1,33 @@
+.posts__article {
+	.posts__title {
+		font-weight: normal;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+
+		&:first-letter {
+			font-size: 130%;
+		}
+	}
+
+	.posts__date {
+		font-size: 1.25em;
+		text-align: center;
+	}
+
+
+	h2, h3, h4, h5, h6 {
+		color: darken($brand-color, 15%);
+		font-size: 1.5em;
+	}
+
+	a {
+		color: $brand-color;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: darken($brand-color, 15%);
+			text-shadow: 0 0 10px #CCC;
+		}
+	}
+}
