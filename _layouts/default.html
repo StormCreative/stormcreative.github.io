@@ -1,6 +1,26 @@
----
-theme :
-  name : twitter
----
-{% include JB/setup %}
-{% include themes/twitter/default.html %}
+<!doctype html>
+<!--[if IE 7]><html lang="en"><![endif]-->
+<!--[if IE 8]><html lang="en"><![endif]-->
+<!--[if IE 9]><html lang="en"><![endif]-->
+<!--[if gt IE 9]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Storm Creative Digital Media Blog</title>
+    <script src="assets/scripts/utils/modernizr.min.js"></script>
+    <meta name="author" content="Storm Creative" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/plain" rel="author" href="humans.txt" />
+    <link rel="stylesheet" href="/assets/styles/styles.css" />
+</head>
+	<body>
+		<div class="header">
+			<h1>Digital Fridays</h1>
+			<p><i>It's what coding's all about&hellip;</i></p>
+		</div>
+		<div class="container">
+			<div class="posts">
+			{{content}}	
+			</div>
+		</div>
+	</body>
+</html>

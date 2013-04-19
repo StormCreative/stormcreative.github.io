@@ -1,0 +1,13 @@
+---
+layout: default
+title: Storm Creative Digital Media Team
+---
+
+{% for post in site.posts %}
+<article class="posts__article">
+	<h2 class="posts__title"><a href="{{ BASE_PATH }}{{ post.url }}">{{post.title}}</a></h2>
+	<p class="posts__date"><time datetime="{{ post.date | date: "%Y-%m-%d"  }}" pubdate="">{{ post.date | date_to_long_string }}</time></p>
+	{{post.content}}
+	<hr>
+</article>
+{% endfor %}
