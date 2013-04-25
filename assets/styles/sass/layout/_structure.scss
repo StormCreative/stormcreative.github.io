@@ -6,10 +6,6 @@
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-
-	transition: all 0.2s ease-in-out;
-	-moz-transition: all 0.2s ease-in-out;
-	-webkit-transition: all 0.2s ease-in-out;
 }
 
 body {
@@ -28,6 +24,12 @@ h2, h3, h4, h5, h6 {
 
 p {
 	line-height: 1.4;
+}
+
+a {
+	transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
 }
 
 .header {
