@@ -9,7 +9,7 @@ tags: []
 {% include JB/setup %}
 I'm about to show you a very easy solution to get a Facebook Competition up and running, just as the title states I'll be using Sinatra. 
 
-<!-- break -->
+<!--break-->
 
 If you didn't already know, Sinatra is a Simple Ruby Web Framework. You may have heard of Ruby on Rails, well Sinatra is a completely stripped
 down alternative to Rails - which is exactly why it's a great tool for a Facebook Competition!
