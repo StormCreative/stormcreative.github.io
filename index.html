@@ -3,7 +3,7 @@ layout: default
 title: Storm Creative Digital Media Team
 ---
 
-{% for post in site.posts %}
+{% for post in site.posts limit:10 %}
 {% assign author = site.authors[post.author] %}
 <article class="posts__article">
   <div class="gravatar__holder">
@@ -15,7 +15,10 @@ title: Storm Creative Digital Media Team
   </div>
   <h2 class="posts__title"><a href="{{ BASE_PATH }}{{ post.url }}">{{post.title}}</a></h2>
   <p class="posts__date"><time datetime="{{ post.date | date: "%Y-%m-%d"  }}" pubdate="">{{ post.date | date_to_long_string }}</time></p>
-  {{post.content}}
+  {{ post.content | split:'<!--break-->' | first }}
+   {% if post.content contains '<!--break-->' %}
+      <a href="{{ post.url }}">read more</a>
+   {% endif %}
 </article>
 <!--<hr>-->
 {% endfor %}

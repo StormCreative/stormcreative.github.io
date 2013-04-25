@@ -34,6 +34,8 @@
 		&:hover > .gravatar__info,
 		&:focus > .gravatar__info {
 			opacity: 1;
+
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		}
 
 		.gravatar__img {
@@ -61,6 +63,8 @@
 			border-radius: 2em;
 			-moz-border-radius: 2em;
 			-webkit-border-radius: 2em;
+
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 
 			li {
 				display: inline-block;
