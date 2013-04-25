@@ -7,7 +7,7 @@ category:
 tags: []
 ---
 {% include JB/setup %}
-I'm about to show you a very easy solution to get a Facebook Competition up and running, just as the title states I'll with Sinatra. 
+I'm about to show you a very easy solution to get a Facebook Competition up and running by using Sinatra. 
 
 <!--break-->
 
