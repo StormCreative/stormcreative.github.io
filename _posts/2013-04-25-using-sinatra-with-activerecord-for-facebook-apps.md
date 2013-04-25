@@ -95,7 +95,7 @@ and production environment, so you will need to change the database name to be w
 {% highlight ruby %}
 
 configure :development, :test do
-  set :database, 'sqlite3:///blog.db'
+  set :database, 'sqlite3:///competition.db'
 end
  
 configure :production do
