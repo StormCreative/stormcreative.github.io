@@ -4,10 +4,18 @@ title: Storm Creative Digital Media Team
 ---
 
 {% for post in site.posts %}
+{% assign author = site.authors[post.author] %}
 <article class="posts__article">
-	<h2 class="posts__title"><a href="{{ BASE_PATH }}{{ post.url }}">{{post.title}}</a></h2>
-	<p class="posts__date"><time datetime="{{ post.date | date: "%Y-%m-%d"  }}" pubdate="">{{ post.date | date_to_long_string }}</time></p>
-	{{post.content}}
-	<hr>
+  <div class="gravatar__holder">
+    <img class="gravatar__img" src="http://www.gravatar.com/avatar/{{ author.gravatar }}?s=144">
+    <ul class="gravatar__info">
+      <li><a href="https://github.com/{{ author.github }}" class="icon-github" target="_blank"></a></li>
+      <li><a href="https://twitter.com/{{ author.twitter }}" class="icon-twitter" target="_blank"></a></li>
+    </ul>
+  </div>
+  <h2 class="posts__title"><a href="{{ BASE_PATH }}{{ post.url }}">{{post.title}}</a></h2>
+  <p class="posts__date"><time datetime="{{ post.date | date: "%Y-%m-%d"  }}" pubdate="">{{ post.date | date_to_long_string }}</time></p>
+  {{post.content}}
 </article>
+<!--<hr>-->
 {% endfor %}

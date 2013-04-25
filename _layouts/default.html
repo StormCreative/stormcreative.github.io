@@ -6,21 +6,29 @@
 <head>
     <meta charset="utf-8" />
     <title>Storm Creative Digital Media Blog</title>
-    <script src="assets/scripts/utils/modernizr.min.js"></script>
+    <script src="/assets/scripts/utils/modernizr.min.js"></script>
     <meta name="author" content="Storm Creative" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link type="text/plain" rel="author" href="humans.txt" />
     <link rel="stylesheet" href="/assets/styles/styles.css" />
+    <link rel="stylesheet" href="/assets/styles/pygments.css">
 </head>
 	<body>
 		<div class="header">
-			<h1>Digital Fridays</h1>
-			<!--<p><i>Friday's starting to get logical&hellip;</i></p>-->
+			<h1><a href="/">Digital Fridays</a></h1>
+			<a href="/lab.html" class="icon-beaker" title="The Lab"></a>
+			<a href="{{ BASE_PATH }}{{ site.JB.archive_path }}" class="icon-folder-open" title="Archive"></a>
 		</div>
 		<div class="container">
 			<div class="posts">
 			{{content}}	
 			</div>
+		</div>
+		<div class="footer">
+			<ul>
+				<li>This blog is run by <a href="http://www.stormcreative.co.uk/" target="_blank">Storm Creative</a>, built on Jekyll and open-sourced on <a href="https://github.com/StormCreative" target="_blank">Github</a>. You can find Storm Creative on <a href="https://twitter.com/stormcreative" target="_blank">Twitter</a> and <a href="https://www.facebook.com/stormcreativemedia" target="_blank">Facebook</a>.</li>
+				<li class="storm"><a href="http://www.stormcreative.co.uk/" target="_blank">StormCreative</a></li>
+			</ul>
 		</div>
 	</body>
 </html>

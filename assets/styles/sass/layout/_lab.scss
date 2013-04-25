@@ -1,0 +1,13 @@
+.lab__section {
+
+	.lab__title {
+		color: $brand-color;
+		font-size: 2em;
+		margin-bottom: 0;
+		margin-top: 1em;
+
+		&:first-letter {
+			font-size: 130%;
+		}
+	}
+}

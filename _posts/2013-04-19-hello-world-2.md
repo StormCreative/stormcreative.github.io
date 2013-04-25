@@ -1,5 +1,6 @@
 ---
 layout: post
+author: ash
 title: "Hello World 2"
 description: ""
 category: 

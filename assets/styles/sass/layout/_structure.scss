@@ -1,4 +1,6 @@
 @import "configurations/variables";
+@import "fonts/fonts";
+@import "fonts/font-awesome";
 
 * {
 	box-sizing: border-box;
@@ -10,63 +12,178 @@
 	-webkit-transition: all 0.2s ease-in-out;
 }
 
-@import "fonts/fonts";
-
 body {
-	
-	font-family: 'TTMedium';
+	background-color: transparent;
+	font-family: 'Merriweather Sans';
 	font-size: 1em;
 	margin: 0;
+	position: relative;
+
+	-webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	text-align: center;
+h2, h3, h4, h5, h6 {
+	font-weight: 500;
 }
 
 p {
 	line-height: 1.4;
 }
 
-pre {
-	margin: 0;
-	white-space: none;
-}
-
 .header {
-
 	background: $bgheader-image;
 	padding: 2.5em 0;
-	position: fixed;
-	top: 0;
+	position: relative;
 	width: 100%;
 	z-index: 2;
 
-	box-shadow: 0 3px 4px #666;
-	-moz-box-shadow: 0 3px 9px #666;
-	-webkit-box-shadow: 0 0px 6px #666;
+	box-shadow: 0 0 6px #666;
+	-moz-box-shadow: 0 0 6px #666;
+	-webkit-box-shadow: 0 0 6px #666;
 
 	h1 {
-		color: $bgheader-color;
 		font-size: 3em;
-		font-weight: normal;
+		font-weight: 300;
 		margin: 0;
 		text-align: center;
-		text-transform: uppercase;
 		text-shadow: 1px 1px 6px #666;
-		letter-spacing: 0.1em;
+
+		a {
+			color: $bgheader-color;
+			text-decoration: none;
+		}
 	}
 
 	p {
 		color: $bgheader-color;
 		text-align: center;
-
 		text-shadow: 0px 0px 2px #000;
+	}
+
+	.icon-beaker {
+		color: #FFF;
+		font-size: 2em;
+	    position: absolute;
+	    right: 0.5em;
+	    top: 0.5em;
+
+	    &:hover,
+	    &:focus {
+	    	color: #AAA;
+
+	    	transform: rotate(45deg);
+	    	-moz-transform: rotate(45deg);
+	    	-webkit-transform: rotate(45deg);
+	    }
+	}
+
+	.icon-folder-open {
+		bottom: 0.5em;
+		color: #FFF;
+		font-size: 1.875em;
+	    position: absolute;
+	    right: 0.5em;
+
+	    &:hover,
+	    &:focus {
+	    	color: #AAA;
+	    }
 	}
 }
 
 .container {
-	margin: 15em auto 0;
+	margin: 0 auto;
 	max-width: 50em;
 	position: relative;
+}
+
+hr, .hr__full {
+	background: #CCC;
+	border: none;
+	height: 2px;
+	margin: 2em auto;
+}
+
+hr {
+	width: 50%;
+}
+
+.hr__full {
+	width: 100%;
+}
+
+pre {
+  	background-color:#F2F2F2;
+  	color: #000;
+  	overflow: auto;
+  	padding: 12px;
+  	white-space: pre;
+  	word-wrap: normal;
+
+  	border-radius: 0.3em;
+  	-moz-border-radius: 0.3em;
+  	-webkit-border-radius: 0.3em;
+}
+
+.footer {
+	background: darken($brand-color, 25%);
+	margin: 3em auto 0;
+	max-width: 1960px;
+
+	box-shadow: 0 -3px 3px #CCC;
+	-moz-box-shadow: 0 -3px 3px #CCC;
+	-webkit-box-shadow: 0 -3px 3px #CCC;
+
+	ul {
+		letter-spacing: -0.32em;
+		list-style: none;
+		margin: 0 auto;
+		max-width: 50em;
+		padding: 2em 0;
+
+		li {
+			color: #FFF;
+			display: inline-block;
+			font-size: 0.875em;
+			letter-spacing: normal;
+			line-height: 1.4;
+			margin: 0;
+			vertical-align: middle;
+
+			&:first-child {
+				width: 66%;
+			}
+
+			a {
+				color: #FFF;
+
+				&:hover,
+				&:focus {
+					color: #AAA;
+				}
+			}
+		}
+
+		.storm {
+			text-align: right;
+			width: 34%;
+
+			a {
+				background: url("../images/logo-storm.png") no-repeat scroll 0 0 transparent;
+			    color: transparent;
+			    float: right;
+			    height: 27px;
+			    width: 115px;
+
+			    &:hover,
+			    &:focus {
+			    	color: transparent;
+			    }
+			}
+		}
+	}
+}
+
+small {
+	color: #000;
 }

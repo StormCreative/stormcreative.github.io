@@ -1,5 +1,6 @@
 ---
 layout: post
+author: rich
 title: "Hello World"
 description: ""
 category: 
