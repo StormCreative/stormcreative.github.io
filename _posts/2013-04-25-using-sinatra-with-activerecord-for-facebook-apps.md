@@ -226,6 +226,11 @@ You are then able to access the site through the following URL:
 localhost:9393
 {% endhighlight %}
 
+So now you have all this data captured in your database, but how can you easily access it? I'd suggest installing the gem [Padrino](http://www.padrinorb.com/) - it will simply
+map itself to your applications models and create a full Admin System around your data - so you can export and manage your entrants.
+
 And that's a rap - it's up to you where you go to from here, but this should get you started.
+
+
 
 
