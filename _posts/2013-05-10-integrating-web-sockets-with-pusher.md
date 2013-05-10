@@ -133,4 +133,4 @@ display_message: function ( data ) {
 }
 {% endhighlight %}
 
-This is all we need to get a very simple real time chat application up and running. There are several improvements to this that can be seen by viewing the source code on [GitHub](https://github.com/StormCreative/chat). This version take things a little further implementing broswer notifications for new messages, gravatars to make the chat a little more personalised and a log in system to make it secure.
+This is all we need to get a very simple real time chat application up and running. There are several improvements to this that can be seen by viewing the source code on [GitHub](https://github.com/StormCreative/chat). This version takes things a little further implementing broswer notifications for new messages, gravatars to make the chat a little more personalised and a log in system to make it secure.
