@@ -39,7 +39,7 @@ sudo gem install sinatra-activerecord
 {% endhighlight %}
 
 Now that is everything we need installed globally onto our machine. Next step is to create a directory for the app, anywhere you would usually
-hold your sites that you develop will do. We'll be setting up the directory will the following subdirectories and files:
+hold your sites that you develop will do. We'll be setting up the directory with the following subdirectories and files:
 
 {% highlight ruby %}
 - models
