@@ -7,7 +7,7 @@ category:
 tags: []
 ---
 {% include JB/setup %}
-We're currently working on an entirely new site for the Digital Department - with the main aim to improve, and hopefully abolish bounce rates. The key to this is having an extremely fast, streamlined site so there's no wait for the user to load the website. 
+We're currently working on an entirely new site for the Digital Department - with the main aim to improve, and hopefully abolish bounce rates. A fundamental requirement to this is having an extremely fast, streamlined site so there's no wait for the user to load the website. 
 <!--break-->
 
 The new site is about 85% static, however the parts that are dynamic have still rely on a number of queries to display data. Although they probably don't look too cost effective, our framework and database architecture do rely on a fair bit of relational queries; for example we store our images in their own database table - because of this, having multiple calls to different data sets could have a performance impact.
