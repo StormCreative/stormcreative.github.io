@@ -21,7 +21,7 @@ authors:
     web: alexshearcroft.github.io
     twitter: shearzy90
     github: AlexShearcroft
-    bio: I currently work as a Front-End Developer for Storm Creative Media.
+    bio: One of two Front-end developers here at Storm Digital.
   ash:
     name: Ashley Banks
     display_name: Ash
@@ -30,7 +30,7 @@ authors:
     web: http://www.ashbanks.co.uk
     twitter: applebiz89
     github: banksy89
-    bio: Heads up the digital media department.
+    bio: Keeping the department in order - background in back-end development.
   dave:
     name: David Jones
     display_name: Dave
@@ -47,6 +47,7 @@ authors:
     web: http://www.richardbeaufoy.com
     twitter: richardbeaufoy
     github: RichardBeaufoy
+    bio: "Second Front-end developer at Storm - absolutely loves to break stuff"
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
