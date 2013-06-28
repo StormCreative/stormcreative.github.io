@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Storm Creative</title>
+ <link href="http://stormcreative.github.io/" rel="self"/>
+ <link href="http://stormcreative.github.io"/>
+ <updated>2013-05-14T14:29:46+01:00</updated>
+ <id>http://stormcreative.github.io</id>
+ <author>
+   <name></name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Using Sinatra with ActiveRecord for Competition Facebook Apps</title>
+   <link href="http://stormcreative.github.io/2013/04/26/using-sinatra-with-activerecord-for-facebook-apps"/>
+   <updated>2013-04-26T00:00:00+01:00</updated>
+   <id>http://stormcreative.github.io/2013/04/26/using-sinatra-with-activerecord-for-facebook-apps</id>
+   <content type="html">&lt;p&gt;I&amp;#8217;m about to show you a very easy solution to get a Facebook Competition up and running by using Sinatra.&lt;/p&gt;
+&lt;!--break--&gt;
+&lt;p&gt;If you didn&amp;#8217;t already know, Sinatra is a Simple Ruby Web Framework. You may have heard of Ruby on Rails, well Sinatra is a completely stripped down alternative to Rails - which is exactly why it&amp;#8217;s a great tool for a Facebook Competition!&lt;/p&gt;
+
+&lt;p&gt;I&amp;#8217;m going to assume you know how to set-up a Facebook App - if you don&amp;#8217;t you can follow Facebooks own tutorial &lt;a href='https://developers.facebook.com/docs/guides/appcenter/'&gt;here&lt;/a&gt;. However I will say for this purpose we will be taking Facebooks recommendation and hosting with Heroku for free - as Heroku happily supports Ruby.&lt;/p&gt;
+
+&lt;p&gt;Sinatra doesn&amp;#8217;t natively come with a way to interact with a database, so this is why we will be using ActiveRecord - which will also have to be set up, but don&amp;#8217;t worry I&amp;#8217;ll be showing you below.&lt;/p&gt;
+
+&lt;p&gt;To get started we&amp;#8217;re going to install Sinatra. Fire up your terminal and type in the below command:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;sudo&lt;/span&gt; &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt; &lt;span class='n'&gt;sinatra&lt;/span&gt;
+
+&lt;span class='c1'&gt;# Shotgun is a gem that prevents us having to constantly restart the Sinatra server&lt;/span&gt;
+&lt;span class='n'&gt;sudo&lt;/span&gt; &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt; &lt;span class='n'&gt;shotgun&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;While we&amp;#8217;re at installing gem&amp;#8217;s we may aswell install the ActiveRecord bits:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;sudo&lt;/span&gt; &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt; &lt;span class='n'&gt;bundle&lt;/span&gt;
+
+&lt;span class='n'&gt;sudo&lt;/span&gt; &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt; &lt;span class='n'&gt;activerecord&lt;/span&gt;
+
+&lt;span class='n'&gt;sudo&lt;/span&gt; &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt; &lt;span class='n'&gt;sinatra&lt;/span&gt;&lt;span class='o'&gt;-&lt;/span&gt;&lt;span class='n'&gt;activerecord&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now that is everything we need installed globally onto our machine. Next step is to create a directory for the app, anywhere you would usually hold your sites that you develop will do. We&amp;#8217;ll be setting up the directory with the following subdirectories and files:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='o'&gt;-&lt;/span&gt; &lt;span class='n'&gt;models&lt;/span&gt;
+&lt;span class='o'&gt;-&lt;/span&gt; &lt;span class='n'&gt;config&lt;/span&gt;
+    &lt;span class='o'&gt;-&lt;/span&gt; &lt;span class='n'&gt;environments&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;rb&lt;/span&gt;
+&lt;span class='o'&gt;-&lt;/span&gt; &lt;span class='n'&gt;views&lt;/span&gt;
+&lt;span class='n'&gt;app&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;rb&lt;/span&gt;
+&lt;span class='n'&gt;config&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;ru&lt;/span&gt;
+&lt;span class='no'&gt;Gemfile&lt;/span&gt;
+&lt;span class='no'&gt;Rakefile&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We&amp;#8217;ll start backwards from the list and begin with our Rakefile - if you were unaware this is where a projects command line tasks are held. Open the Rakefile up and put the below code in, you don&amp;#8217;t have to worry about what it actually does it just requires in some tasks:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;./app&amp;quot;&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;sinatra/activerecord/rake&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Within your Gemfile you&amp;#8217;ll be placing the below code in. Take note at the &amp;#8216;development&amp;#8217; and &amp;#8216;production&amp;#8217; group; we have this as Heroku only supports postgres SQL, but for local development we will be using sqlite3.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;source&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;https://rubygems.org&amp;#39;&lt;/span&gt;
+
+&lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;sinatra&amp;quot;&lt;/span&gt;
+&lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;activerecord&amp;quot;&lt;/span&gt;
+&lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;sinatra-activerecord&amp;quot;&lt;/span&gt;
+
+&lt;span class='n'&gt;group&lt;/span&gt; &lt;span class='ss'&gt;:development&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;shotgun&amp;quot;&lt;/span&gt;
+  &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;tux&amp;quot;&lt;/span&gt;
+  &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;sqlite3&amp;#39;&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+ 
+&lt;span class='n'&gt;group&lt;/span&gt; &lt;span class='ss'&gt;:production&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='n'&gt;gem&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;pg&amp;#39;&lt;/span&gt; &lt;span class='c1'&gt;# this gem is required to use postgres on Heroku&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Your config.ru file should look like below:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='c1'&gt;# config.ru&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;./app&amp;quot;&lt;/span&gt;
+&lt;span class='n'&gt;run&lt;/span&gt; &lt;span class='ss'&gt;Sinatra&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Application&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The final step of setting up before we can get to the fun stuff is to setup our environments.rb. The below code sets the database up for both the development and production environment, so you will need to change the database name to be whatever you want the database to be called.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;configure&lt;/span&gt; &lt;span class='ss'&gt;:development&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='ss'&gt;:test&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='n'&gt;set&lt;/span&gt; &lt;span class='ss'&gt;:database&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;sqlite3:///competition.db&amp;#39;&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+ 
+&lt;span class='n'&gt;configure&lt;/span&gt; &lt;span class='ss'&gt;:production&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='c1'&gt;# Database connection&lt;/span&gt;
+  &lt;span class='n'&gt;db&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;URI&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;parse&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='no'&gt;ENV&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='s1'&gt;&amp;#39;DATABASE_URL&amp;#39;&lt;/span&gt;&lt;span class='o'&gt;]&lt;/span&gt; &lt;span class='o'&gt;||&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;postgres://localhost/mydb&amp;#39;&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;
+ 
+  &lt;span class='ss'&gt;ActiveRecord&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Base&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;establish_connection&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;
+    &lt;span class='ss'&gt;:adapter&lt;/span&gt;  &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;scheme&lt;/span&gt; &lt;span class='o'&gt;==&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;postgres&amp;#39;&lt;/span&gt; &lt;span class='p'&gt;?&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;postgresql&amp;#39;&lt;/span&gt; &lt;span class='p'&gt;:&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;scheme&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;
+    &lt;span class='ss'&gt;:host&lt;/span&gt;     &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;host&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;
+    &lt;span class='ss'&gt;:username&lt;/span&gt; &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;user&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;
+    &lt;span class='ss'&gt;:password&lt;/span&gt; &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;password&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;
+    &lt;span class='ss'&gt;:database&lt;/span&gt; &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='n'&gt;db&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;path&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='mi'&gt;1&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;.&lt;/span&gt;&lt;span class='o'&gt;-&lt;/span&gt;&lt;span class='mi'&gt;1&lt;/span&gt;&lt;span class='o'&gt;]&lt;/span&gt;&lt;span class='p'&gt;,&lt;/span&gt;
+    &lt;span class='ss'&gt;:encoding&lt;/span&gt; &lt;span class='o'&gt;=&amp;gt;&lt;/span&gt; &lt;span class='s1'&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;
+  &lt;span class='p'&gt;)&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That&amp;#8217;s everything we need to finally get started! Go back into your terminal and you will be running the bundle command; we&amp;#8217;re doing this to locally install the Gems that we have put within our Gemfile.&lt;/p&gt;
+
+&lt;p&gt;This may take a while, but once complete you should find a Gemfile.lock within the directory.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;bundle&lt;/span&gt; &lt;span class='n'&gt;install&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Once bundle has worked it&amp;#8217;s magic you will be able to see Rakes avaliable tasks and start setting up some database tables to work with. So go ahead and type in the following command:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='o'&gt;-&lt;/span&gt;&lt;span class='n'&gt;T&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The above command will then display three rake tasks, and your terminal window will look like below:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='err'&gt;$&lt;/span&gt; &lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='o'&gt;-&lt;/span&gt;&lt;span class='n'&gt;T&lt;/span&gt;
+&lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='ss'&gt;db&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='n'&gt;create_migration&lt;/span&gt;  &lt;span class='c1'&gt;# create an ActiveRecord migration&lt;/span&gt;
+&lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='ss'&gt;db&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='n'&gt;migrate&lt;/span&gt;           &lt;span class='c1'&gt;# migrate the database (use version with VERSION=n)&lt;/span&gt;
+&lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='ss'&gt;db&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='n'&gt;rollback&lt;/span&gt;          &lt;span class='c1'&gt;# roll back the migration (use steps with STEP=n)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;We will want to setup a table to hold our competition entry data - to do this we will be using the first task from the rake task list &amp;#8216;db:create_migration&amp;#8217;. If you run the following command, you should see a &amp;#8216;db&amp;#8217; directory appear in your site folder and within there a migration with a prepended timestamp. This migration file is where we will put in the information about our table to create.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='n'&gt;rake&lt;/span&gt; &lt;span class='ss'&gt;db&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='n'&gt;create_migration&lt;/span&gt; &lt;span class='no'&gt;NAME&lt;/span&gt;&lt;span class='o'&gt;=&lt;/span&gt;&lt;span class='n'&gt;competition&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Jump to the migration file that was just created and you will want to place something along the lines of the below code within the &amp;#8216;up&amp;#8217; method, you will need to alter it in the future for the table columns your form would be capturing - but here is just an example:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='c1'&gt;# This migration will create two columns title and body and by default a time when the row was created&lt;/span&gt;
+&lt;span class='c1'&gt;# just continue to add more columns if needed.&lt;/span&gt;
+&lt;span class='n'&gt;create_table&lt;/span&gt; &lt;span class='ss'&gt;:competitions&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt; &lt;span class='o'&gt;|&lt;/span&gt;&lt;span class='n'&gt;t&lt;/span&gt;&lt;span class='o'&gt;|&lt;/span&gt;
+  &lt;span class='n'&gt;t&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;string&lt;/span&gt; &lt;span class='ss'&gt;:title&lt;/span&gt;
+  &lt;span class='n'&gt;t&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;text&lt;/span&gt; &lt;span class='ss'&gt;:body&lt;/span&gt;
+  &lt;span class='n'&gt;t&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;timestamps&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It&amp;#8217;s all very well that we have created and altered our migration, but we need to actually process it. This is done through the &amp;#8216;db:migrate&amp;#8217; command, just run that within the terminal and all the database schema should be created!&lt;/p&gt;
+
+&lt;p&gt;Now it&amp;#8217;s time to create our model, create a new file within the models folder called competition.rb (or whatever you called your table) and place the following code in. This is just a very simple Ruby class that extends ActiveRecord, we can do more with this model later by adding validation etc. etc.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='c1'&gt;# Notice we don&amp;#39;t call me with a plural like the table&lt;/span&gt;
+&lt;span class='k'&gt;class&lt;/span&gt; &lt;span class='nc'&gt;Competition&lt;/span&gt; &lt;span class='o'&gt;&amp;lt;&lt;/span&gt; &lt;span class='ss'&gt;ActiveRecord&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='ss'&gt;:Base&lt;/span&gt;
+    &lt;span class='c1'&gt;# and everything to do with the model will go within here&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now we have to tell our app where to go within the browser. This is where Sinatras simplicity comes in, you set all your routes within just one file and by that given URL you perform an action, see below and read the comments to understand what is happening:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='c1'&gt;# Require in all neccessary files&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;sinatra&amp;quot;&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;sinatra/activerecord&amp;quot;&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;./config/environments&amp;quot;&lt;/span&gt;
+&lt;span class='nb'&gt;require&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;./models/competition&amp;quot;&lt;/span&gt;
+
+&lt;span class='c1'&gt;# the get method tells sinatra to do the following on the default page of /&lt;/span&gt;
+&lt;span class='n'&gt;get&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='c1'&gt;# erb tells Sinatra to load the file &amp;#39;index&amp;#39; within the views folder&lt;/span&gt;
+  &lt;span class='c1'&gt;# our index view file will hold a form that posts&lt;/span&gt;
+  &lt;span class='n'&gt;erb&lt;/span&gt; &lt;span class='ss'&gt;:index&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+
+&lt;span class='c1'&gt;# as the form method is post we use the post method to capture the form being processed&lt;/span&gt;
+&lt;span class='c1'&gt;# from the homepage&lt;/span&gt;
+&lt;span class='n'&gt;post&lt;/span&gt; &lt;span class='s2'&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class='k'&gt;do&lt;/span&gt;
+  &lt;span class='c1'&gt;# we simply instantiate the competition model and pass in the post parameters from the form&lt;/span&gt;
+  &lt;span class='n'&gt;comp&lt;/span&gt; &lt;span class='o'&gt;=&lt;/span&gt; &lt;span class='no'&gt;Competition&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;new&lt;/span&gt;&lt;span class='p'&gt;(&lt;/span&gt;&lt;span class='n'&gt;params&lt;/span&gt;&lt;span class='o'&gt;[&lt;/span&gt;&lt;span class='ss'&gt;:competitions&lt;/span&gt;&lt;span class='o'&gt;]&lt;/span&gt;&lt;span class='p'&gt;)&lt;/span&gt;  
+  &lt;span class='c1'&gt;# we check that the save was successful and do something&lt;/span&gt;
+  &lt;span class='k'&gt;if&lt;/span&gt; &lt;span class='n'&gt;comp&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;save&lt;/span&gt;
+    &lt;span class='s2'&gt;&amp;quot;Item has been saved: &lt;/span&gt;&lt;span class='si'&gt;#{&lt;/span&gt;&lt;span class='n'&gt;comp&lt;/span&gt;&lt;span class='o'&gt;.&lt;/span&gt;&lt;span class='n'&gt;title&lt;/span&gt;&lt;span class='si'&gt;}&lt;/span&gt;&lt;span class='s2'&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class='k'&gt;else&lt;/span&gt;
+    &lt;span class='s2'&gt;&amp;quot;Item was not saved&amp;quot;&lt;/span&gt;
+  &lt;span class='k'&gt;end&lt;/span&gt;
+&lt;span class='k'&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Your view file will look something like below, take note of how the name of the form field looks - this is why we pass in &amp;#8216;params&lt;span&gt;:competitions&lt;/span&gt;&amp;#8217; to the model instantiation.&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='html'&gt;&lt;span class='nt'&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Form&lt;span class='nt'&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class='nt'&gt;&amp;lt;form&lt;/span&gt; &lt;span class='na'&gt;method=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;post&amp;quot;&lt;/span&gt; &lt;span class='na'&gt;action=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class='nt'&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class='nt'&gt;&amp;lt;label&lt;/span&gt; &lt;span class='na'&gt;for=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class='nt'&gt;&amp;gt;&lt;/span&gt;Title: &lt;span class='nt'&gt;&amp;lt;/label&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class='na'&gt;type=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class='na'&gt;name=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;competitions[title]&amp;quot;&lt;/span&gt; &lt;span class='na'&gt;id=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;title&amp;quot;&lt;/span&gt;&lt;span class='nt'&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class='nt'&gt;&amp;lt;input&lt;/span&gt; &lt;span class='na'&gt;type=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class='na'&gt;name=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;submit&amp;quot;&lt;/span&gt; &lt;span class='na'&gt;value=&lt;/span&gt;&lt;span class='s'&gt;&amp;quot;save&amp;quot;&lt;/span&gt;&lt;span class='nt'&gt;&amp;gt;&lt;/span&gt;
+&lt;span class='nt'&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That is everything to get you started with a very simple example - now all you have to do is actually be able to access the app through the browser! Back to terminal and chuck in the command:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='html'&gt;shotgun
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will start the Sinatra server, but allow you to make changes to the site without having the restart the server to register any new changes. You are then able to access the site through the following URL:&lt;/p&gt;
+&lt;div class='highlight'&gt;&lt;pre&gt;&lt;code class='ruby'&gt;&lt;span class='ss'&gt;localhost&lt;/span&gt;&lt;span class='p'&gt;:&lt;/span&gt;&lt;span class='mi'&gt;9393&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;So now you have all this data captured in your database, but how can you easily access it? I&amp;#8217;d suggest installing the gem &lt;a href='http://www.padrinorb.com/'&gt;Padrino&lt;/a&gt; - it will simply map itself to your applications models and create a full Admin System around your data - so you can export and manage your entrants.&lt;/p&gt;
+
+&lt;p&gt;And that&amp;#8217;s a rap - it&amp;#8217;s up to you where you go to from here, but this should get you started.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Create your own blog using Jekyll</title>
+   <link href="http://stormcreative.github.io/2013/04/25/create-your-own-blog-using-jekyll"/>
+   <updated>2013-04-25T00:00:00+01:00</updated>
+   <id>http://stormcreative.github.io/2013/04/25/create-your-own-blog-using-jekyll</id>
+   <content type="html"></content>
+ </entry>
+ 
+ 
+</feed>
