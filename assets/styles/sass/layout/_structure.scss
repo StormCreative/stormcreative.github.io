@@ -27,6 +27,8 @@ p {
 }
 
 a {
+	color: $brand-color;
+
 	transition: all 0.2s ease-in-out;
 	-moz-transition: all 0.2s ease-in-out;
 	-webkit-transition: all 0.2s ease-in-out;
@@ -173,14 +175,11 @@ pre {
 			a {
 				background: url("../images/logo-storm.png") no-repeat scroll 0 0 transparent;
 			    float: right;
-			    font-size: 0px;
-			    height: 27px;
-			    width: 115px;
-
-			    &:hover,
-			    &:focus {
-			    	color: transparent;
-			    }
+			    height: 24px;
+			    overflow: hidden;
+			    text-indent: 100%;
+			    white-space: nowrap;
+			    width: 147px;
 			}
 		}
 	}
