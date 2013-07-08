@@ -7,7 +7,7 @@ tags: []
 author: ash
 ---
 {% include JB/setup %}
-By breaking an application down into modules it ensures maintainability and an organised code base. We use Backbone along with RequireJS for structuring our web applications Javascript. Backbone is great, however it can become easily messy if your application isn't structured properly; it can be very tempting to hold all logic into one View.
+By breaking an application down into modules it ensures maintainability and an organised code base. We use Backbone along with RequireJS for structuring our web applications Javascript. Backbone is great, however it can become easily messy if your application isn't structured properly.
 <!--break-->
 
 A Backbone View handles all events for the front-end application - it is sometimes tempting to put most of the actual application logic within the Backbone View, but this is poor code design and not to mention difficult to individually test.
