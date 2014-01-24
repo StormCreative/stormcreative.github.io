@@ -186,6 +186,25 @@ This assertions tests if something is defined. As with the other assertions we c
 	});
 {% endhighlight js %}
 
+<u>toContain()</u>
+This assertion finds checks if a value is found inside a array. Again we do have the option to use the not prefix. Lets look at some examples.
+
+{% highlight js %}
+	describe( "toContain() tests", function() {
+
+		it( "True", function() {
+			var a = [ 'This', 'is', 'a', 'test' ];
+			expect( a ).toContain( 'This' );
+		});
+
+		it( "To not contain", function() {
+			var a = [ 'This', 'is', 'a', 'test' ];
+			expect( a ).not.toContain( 'Hello' );
+		});
+	});
+{% endhighlight js %}
+
+
 
 
 
