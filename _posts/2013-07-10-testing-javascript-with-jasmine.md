@@ -49,3 +49,54 @@ This will install the Grunt CLI globally so you can use Grunt from any directory
 
 {% endhighlight js %}
 
+We also need to make sure we have any dependencies defined in our packages.json file. Here is an example.
+
+{% highlight js %}
+	{
+	  "name": "StormCreative",
+	  "version": "0.1.0",
+	  "devDependencies": {
+	    "grunt": "~0.4.1",
+	    "grunt-contrib-jasmine" : "*",
+	    "phantomjs" : "*",
+	    "grunt-template-jasmine-requirejs": "~0.1.2"
+	  }
+	}
+{% endhighlight js %}
+
+Remember if you make a change to your packages.json file you need to run the following command to install all the necessary dependencies.
+
+{% highlight php %}
+	npm install
+{% endhighlight php %}
+
+We are now ready to start writing our tests.
+
+We currently use [RequireJS](http://requirejs.org/) to help us develop our JavaScript so we will also using that in our testing environment. Here is what a basic test spec could look like.
+
+{% highlight js %}
+	define( [ '../modules/validation' ], function( Validation ) {
+
+		describe( "A suite", function() {
+		    it( "contains spec with an expectation", function() {
+		            expect( true ).toBe( false );
+		    });
+		});
+	});
+{% endhighlight js %}
+
+Lets take a closer look at what this code is doing.
+
+Firstly we need to require the module we intend to test. In this case we are going to test our validation module. Inside the module definition is where we will write our tests. The example above is simply trying to test that true is going to be false. If we go ahead and run this the test will fail and we will be given the name of the suite, the name of the test and a reason to why the test has failed.
+
+
+
+
+
+
+
+
+
+
+
+
