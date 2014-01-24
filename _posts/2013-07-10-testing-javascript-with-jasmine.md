@@ -9,6 +9,8 @@ tags: []
 
 Automated testing has always been something we try and implement with our PHP, so with our increased implementation of JavaScript into all projects we decided it was time to set up a test suit using [Grunt](http://gruntjs.com/) and [Jasmine](http://pivotal.github.io/jasmine/).
 
+<!--break-->
+
 Setting up grunt
 
 First thing you will need to do is install the latest version of grunt. So open up your terminal and enter:
