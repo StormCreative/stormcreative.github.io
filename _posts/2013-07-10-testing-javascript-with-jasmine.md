@@ -89,7 +89,10 @@ Lets take a closer look at what this code is doing.
 
 Firstly we need to require the module we intend to test. In this case we are going to test our validation module. Inside the module definition is where we will write our tests. The example above is simply trying to test that true is going to be false. If we go ahead and run this the test will fail and we will be given the name of the suite, the name of the test and a reason to why the test has failed.
 
+Jasmine has a wide variety of assertions that can be used to test our modules. Here is an explanation of some of the assertions I use a lot.
 
+<u>toBe()</u>
+This is the one we used in our example above.
 
 
 
